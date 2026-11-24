@@ -22,11 +22,11 @@ jobs:
       - run: unzip algouda-flutter-source.zip -d source
       - run: flutter pub get
         working-directory: source/algouda_flutter
-      - run: flutter build apk --release --target-platform android-arm64
+      - run: flutter build apk --release
         working-directory: source/algouda_flutter
       - uses: actions/upload-artifact@v4
         with:
           name: algouda-android-apk
-          path: source/algouda_flutter/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          path: source/algouda_flutter/build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 14
