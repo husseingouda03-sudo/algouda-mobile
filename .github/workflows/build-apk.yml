@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,3 +30,12 @@ jobs:
           path: source/algouda_flutter/build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 14
+      - name: Publish APK release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="android-${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" "source/algouda_flutter/build/app/outputs/flutter-apk/app-release.apk" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Algouda Android APK ${GITHUB_RUN_NUMBER}" \
+            --notes "Android APK built from commit ${GITHUB_SHA}."
